@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JPContext.API.Data;
-using JPContext.API.DTOs;
+using JPContext.API.DTO;
 using JPContext.API.Models;
 using System.Security.Claims;
 

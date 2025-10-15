@@ -76,8 +76,7 @@ public static class DbInitializer
         // Create admin user profile
         var adminProfile = new UserProfile
         {
-          FirstName = "Admin",
-          LastName = "User",
+          Username = "Admin",
           Email = adminEmail,
           IdentityUserId = adminUser.Id,
           CreatedAt = DateTime.UtcNow,
@@ -109,8 +108,7 @@ public static class DbInitializer
         // Create admin user profile if it doesn't exist
         adminProfile = new UserProfile
         {
-          FirstName = "Admin",
-          LastName = "User",
+          Username = "Admin",
           Email = adminEmail,
           IdentityUserId = adminUser.Id,
           CreatedAt = DateTime.UtcNow,
@@ -127,13 +125,16 @@ public static class DbInitializer
   private static async Task SeedSampleData(JPContextDbContext context, UserManager<IdentityUser> userManager)
   {
     // Only seed sample data if the database is empty
-    if (await context.Users.AnyAsync())
+    if (await context.Vocabulary.AnyAsync() || await context.Examples.AnyAsync())
     {
-        return;
+      return;
     }
 
     // Seed sample users and get their profiles
     var userProfiles = await SeedSampleUsers(context, userManager);
+    var vocabulary = await SeedSampleVocabulary(context);
+    var examples = await SeedSampleExamples(context);
+    await SeedSampleComments(context);
 
   }
 
@@ -162,8 +163,7 @@ public static class DbInitializer
 
         var userProfile1 = new UserProfile
         {
-          FirstName = "Sample",
-          LastName = "User",
+          Username = "Sample",
           Email = userEmail1,
           IdentityUserId = sampleUser1.Id,
           CreatedAt = DateTime.UtcNow,
@@ -205,8 +205,7 @@ public static class DbInitializer
 
         var userProfile2 = new UserProfile
         {
-          FirstName = "Jane",
-          LastName = "Doe",
+          Username = "Jane",
           Email = userEmail2,
           IdentityUserId = sampleUser2.Id,
           CreatedAt = DateTime.UtcNow,
@@ -228,5 +227,121 @@ public static class DbInitializer
     }
 
     return userProfiles;
+  }
+
+  private static async Task<List<Vocabulary>> SeedSampleVocabulary(JPContextDbContext context)
+  {
+    var vocabulary = new List<Vocabulary>
+      {
+        new Vocabulary
+        {
+          Term = "大きい",
+          Translation = "Big/Large",
+          Pronunciation = "おおきい"
+        },
+        new Vocabulary
+        {
+          Term = "ふじ山",
+          Translation = "Mt. Fuji",
+          Pronunciation = "ふじさん"
+        },
+        new Vocabulary
+        {
+          Term = "正しい",
+          Translation = "Correct",
+          Pronunciation = "ただしい"
+        },
+        new Vocabulary
+        {
+          Term = "下げる",
+          Translation = "To Lower Something",
+          Pronunciation = "さげる"
+        }
+      };
+
+    context.Vocabulary.AddRange(vocabulary);
+    await context.SaveChangesAsync();
+
+    return vocabulary;
+  }
+
+  private static async Task<List<Example>> SeedSampleExamples(JPContextDbContext context)
+  {
+    var examples = new List<Example>
+      {
+        new Example
+        {
+          Title = "Mt. Fuji News Report",
+          Source = "News Report",
+          VideoUrl = "video1@example.com",
+          Subtitle = "私たちはふじ山にいます",
+          EnglishSubtitle = "We are here at Mt. Fuji."
+        },
+        new Example
+        {
+          Title = "SampleTitle2",
+          Source = "SampleSource2",
+          VideoUrl = "video2@example.com",
+          Subtitle = "テキストの例2",
+          EnglishSubtitle = "ExampleText2"
+        },
+        new Example
+        {
+          Title = "SampleTitle3",
+          Source = "SampleSource3",
+          VideoUrl = "video3@example.com",
+          Subtitle = "テキストの例3",
+          EnglishSubtitle = "ExampleText3"
+        },
+        new Example
+        {
+          Title = "SampleTitle4",
+          Source = "SampleSource4",
+          VideoUrl = "video4@example.com",
+          Subtitle = "テキストの例4",
+          EnglishSubtitle = "ExampleText4"
+        }
+      };
+
+    context.Examples.AddRange(examples);
+    await context.SaveChangesAsync();
+
+    return examples;
+  }
+
+  private static async Task<List<Comment>> SeedSampleComments(JPContextDbContext context)
+  {
+    var comments = new List<Comment>
+      {
+        new Comment
+        {
+          Text = "Test Text1",
+          UserProfileId = 1,
+          VocabularyId = 1
+        },
+        new Comment
+        {
+          Text = "Test Text2",
+          UserProfileId = 2,
+          VocabularyId = 2
+        },
+        new Comment
+        {
+          Text = "Test Text3",
+          UserProfileId = 3,
+          VocabularyId = 3
+        },
+        new Comment
+        {
+          Text = "Test Text4",
+          UserProfileId = 4,
+          VocabularyId = 4
+        }
+      };
+
+    context.Comments.AddRange(comments);
+    await context.SaveChangesAsync();
+
+    return comments;
   }
 }

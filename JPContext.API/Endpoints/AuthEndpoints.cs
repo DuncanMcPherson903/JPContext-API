@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JPContext.API.Data;
-using JPContext.API.DTOs;
+using JPContext.API.DTO;
 using JPContext.API.Models;
 using System.Security.Claims;
 
@@ -15,12 +15,12 @@ public static class AuthEndpoints
     {
         // Registration endpoint
         app.MapPost("/auth/register", async (
-            [FromBody] RegistrationDto registration,
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager,
-            JPContextDbContext db,
-            IMapper mapper,
-            SignInManager<IdentityUser> signInManager) =>
+        [FromBody] RegistrationDto registration,
+        UserManager<IdentityUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        JPContextDbContext db,
+        IMapper mapper,
+        SignInManager<IdentityUser> signInManager) =>
         {
             // Check if user already exists
             var existingUser = await userManager.FindByEmailAsync(registration.Email);
@@ -72,11 +72,11 @@ public static class AuthEndpoints
 
         // Login endpoint
         app.MapPost("/auth/login", async (
-            [FromBody] LoginDto login,
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            JPContextDbContext db,
-            IMapper mapper) =>
+        [FromBody] LoginDto login,
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        JPContextDbContext db,
+        IMapper mapper) =>
         {
             var identityUser = await userManager.FindByEmailAsync(login.Email);
             if (identityUser == null)
@@ -103,8 +103,7 @@ public static class AuthEndpoints
                     // Create a profile for the admin user
                     userProfile = new UserProfile
                     {
-                        FirstName = "Admin",
-                        LastName = "User",
+                        Username = "Admin",
                         Email = identityUser.Email,
                         IdentityUserId = identityUser.Id,
                         CreatedAt = DateTime.UtcNow,
@@ -142,10 +141,10 @@ public static class AuthEndpoints
 
         // Get current user info
         app.MapGet("/auth/me", async (
-            ClaimsPrincipal user,
-            UserManager<IdentityUser> userManager,
-            JPContextDbContext db,
-            IMapper mapper) =>
+        ClaimsPrincipal user,
+        UserManager<IdentityUser> userManager,
+        JPContextDbContext db,
+        IMapper mapper) =>
         {
             var identityUserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
             if (identityUserId == null)
@@ -171,8 +170,7 @@ public static class AuthEndpoints
                     // Create a profile for the admin user
                     userProfile = new UserProfile
                     {
-                        FirstName = "Admin",
-                        LastName = "User",
+                        Username = "Admin",
                         Email = identityUser.Email,
                         IdentityUserId = identityUser.Id,
                         CreatedAt = DateTime.UtcNow,

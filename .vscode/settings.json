@@ -6,7 +6,7 @@
             "port": 5432,
             "driver": "PostgreSQL",
             "name": "PetPal",
-            "database": "JPContext-API",
+            "database": "JPContext",
             "username": "postgres"
         }
     ]
