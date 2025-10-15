@@ -1,12 +1,11 @@
 using JPContext.API.Models;
 
-namespace JPContext.API.DTOs;
+namespace JPContext.API.DTO;
 
 public class UserUpdateDto
 {
-  public string FirstName { get; set; }
-  public string LastName { get; set; }
-  public string Email { get; set; }
+  public required string Username { get; set; }
+  public required string Email { get; set; }
 }
 
 public class UserUpdateResponseDto

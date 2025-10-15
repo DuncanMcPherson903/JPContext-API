@@ -131,6 +131,8 @@ app.MapGet("/", () => "JPContext API is running!");
 // Map API endpoints
 app.MapAuthEndpoints();
 app.MapUserProfileEndpoints();
+app.MapVocabularyEndpoints();
+app.MapCommentEndpoints();
 
 app.Run();
 
