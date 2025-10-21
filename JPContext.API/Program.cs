@@ -133,6 +133,7 @@ app.MapAuthEndpoints();
 app.MapUserProfileEndpoints();
 app.MapVocabularyEndpoints();
 app.MapCommentEndpoints();
+app.MapExampleEndpoints();
 
 app.Run();
 
