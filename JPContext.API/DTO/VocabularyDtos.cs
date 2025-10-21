@@ -6,7 +6,7 @@ public class VocabularyDto
   public required string Term { get; set; }
   public required string Translation { get; set; }
   public required string Pronunciation { get; set; }
-    public List<ExampleDto> Examples { get; set; }
+  public List<ExampleDto> Examples { get; set; }
   public List<CommentDto> Comments { get; set; }
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }

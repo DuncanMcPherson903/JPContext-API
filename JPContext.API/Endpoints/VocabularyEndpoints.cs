@@ -16,13 +16,28 @@ public static class VocabularyEndpoints
     // Get all vocab
     app.MapGet("/vocabulary", async (
       JPContextDbContext db,
-      IMapper mapper) =>
+      IMapper mapper,
+      string? searchQuery) =>
     {
       var vocabulary = await db.Vocabulary
+        .Where((v) => searchQuery == null ? (v.Id > 0) : v.Term.Contains(searchQuery))
         .ToListAsync();
 
       return Results.Ok(mapper.Map<List<VocabularyDto>>(vocabulary));
     });
+
+    // Search through vocabulary database
+    // app.MapGet("/vocabulary", async (JPContextDbContext dbContext, IMapper mapper, int? categoryId, DateTime? fromDate, DateTime? toDate) =>
+    // {
+    //   var events = await dbContext.Events
+    //     .Where((e) => categoryId == null ? (e.Id > 0) : (e.EventCategoryId == categoryId))
+    //     .Where((e) => fromDate == null ? (e.Id > 0) : (e.DateTime > fromDate))
+    //     .Where((e) => toDate == null ? (e.Id > 0) : (e.DateTime < toDate))
+    //     .ProjectTo<EventDto>(mapper.ConfigurationProvider)
+    //     .ToListAsync();
+
+    //   return Results.Ok(events);
+    // });
 
     // Get vocab by id
     app.MapGet("/vocabulary/{id}", async (
@@ -158,5 +173,7 @@ public static class VocabularyEndpoints
 
       return Results.NoContent();
     }).RequireAuthorization("AdminOnly");
+
+
   }
 }
