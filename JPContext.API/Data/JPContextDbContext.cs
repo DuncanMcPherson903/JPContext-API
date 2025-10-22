@@ -13,6 +13,7 @@ public class JPContextDbContext : IdentityDbContext<IdentityUser>
   public DbSet<Vocabulary> Vocabulary { get; set; }
   public DbSet<Comment> Comments { get; set; }
   public DbSet<Example> Examples { get; set; }
+  public DbSet<ExampleVocabulary> ExampleVocabularies { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -33,7 +34,21 @@ public class JPContextDbContext : IdentityDbContext<IdentityUser>
       }
     }
 
-    // Configure foreign keys here
+    // Configure ExampleVocabulary as a join table
+    modelBuilder.Entity<ExampleVocabulary>()
+        .HasKey(ev => ev.Id);
+
+    modelBuilder.Entity<ExampleVocabulary>()
+        .HasOne(ev => ev.Vocabulary)
+        .WithMany(v => v.Examples)
+        .HasForeignKey(ev => ev.VocabularyId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+    modelBuilder.Entity<ExampleVocabulary>()
+        .HasOne(ev => ev.Example)
+        .WithMany(e => e.Vocabulary)
+        .HasForeignKey(ev => ev.ExampleId)
+        .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<Comment>()
       .HasOne(c => c.Vocabulary)

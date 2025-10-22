@@ -8,7 +8,17 @@ public class Example
     public required string VideoUrl { get; set; }
     public required string Subtitle { get; set; }
     public required string EnglishSubtitle { get; set; }
-    public List<Vocabulary> Vocabulary { get; set; } = new List<Vocabulary>();
+    public List<ExampleVocabulary> Vocabulary { get; set; } = new List<ExampleVocabulary>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+}
+
+public class ExampleVocabulary
+{
+    public int Id { get; set; }
+    public int ExampleId { get; set; }
+    public Example Example { get; set; }
+    public int VocabularyId { get; set; }
+    public Vocabulary Vocabulary { get; set; }
+
 }

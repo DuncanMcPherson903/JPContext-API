@@ -79,10 +79,25 @@ public static class ExampleEndpoints
         return Results.NotFound("User profile not found.");
       }
 
+
+
       // Create the example
       var example = mapper.Map<Example>(exampleDto);
       db.Examples.Add(example);
       await db.SaveChangesAsync();
+
+      // Create the Example Vocabulary relationship
+
+      foreach (int vocabId in exampleDto.VocabularyId)
+      {
+        var exampleVocab = new ExampleVocabulary
+        {
+          VocabularyId = vocabId,
+          ExampleId = example.Id
+        };
+        db.ExampleVocabularies.Add(exampleVocab);
+        await db.SaveChangesAsync();
+      }
 
       return Results.Created($"/examples/{example?.Id}", mapper.Map<ExampleDto>(example));
     }).RequireAuthorization();
@@ -102,7 +117,7 @@ public static class ExampleEndpoints
       }
 
       var userProfile = await db.UserProfiles
-              .FirstOrDefaultAsync(up => up.IdentityUserId == userId);
+        .FirstOrDefaultAsync(up => up.IdentityUserId == userId);
 
       if (userProfile == null)
       {
@@ -154,11 +169,36 @@ public static class ExampleEndpoints
         return Results.NotFound("Example not found.");
       }
 
-      // Delete the vocabulary
+      // Delete the example
       db.Examples.Remove(example);
       await db.SaveChangesAsync();
 
       return Results.NoContent();
     }).RequireAuthorization();
+
+    // Get examples by Vocabulary id
+    app.MapGet("/vocabulary/{id}/examples", async (
+      int id,
+      ClaimsPrincipal user,
+      JPContextDbContext db,
+      IMapper mapper) =>
+    {
+
+      var exampleVocabularies = await db.ExampleVocabularies
+        .Include(ev => ev.Example)
+        .ThenInclude(e => e.Vocabulary.Where(ev => ev.VocabularyId == ev.Vocabulary.Id))
+        .ThenInclude(ev => ev.Vocabulary)
+        .Where(ev => ev.VocabularyId == id)
+        .ToListAsync();
+
+      var examples = exampleVocabularies.Select(ev => ev.Example).ToList();
+
+      if (examples == null)
+      {
+        return Results.NotFound("Example not found.");
+      }
+
+      return Results.Ok(mapper.Map<List<ExampleDto>>(examples));
+    });
   }
 }

@@ -26,19 +26,6 @@ public static class VocabularyEndpoints
       return Results.Ok(mapper.Map<List<VocabularyDto>>(vocabulary));
     });
 
-    // Search through vocabulary database
-    // app.MapGet("/vocabulary", async (JPContextDbContext dbContext, IMapper mapper, int? categoryId, DateTime? fromDate, DateTime? toDate) =>
-    // {
-    //   var events = await dbContext.Events
-    //     .Where((e) => categoryId == null ? (e.Id > 0) : (e.EventCategoryId == categoryId))
-    //     .Where((e) => fromDate == null ? (e.Id > 0) : (e.DateTime > fromDate))
-    //     .Where((e) => toDate == null ? (e.Id > 0) : (e.DateTime < toDate))
-    //     .ProjectTo<EventDto>(mapper.ConfigurationProvider)
-    //     .ToListAsync();
-
-    //   return Results.Ok(events);
-    // });
-
     // Get vocab by id
     app.MapGet("/vocabulary/{id}", async (
       int id,
@@ -174,6 +161,30 @@ public static class VocabularyEndpoints
       return Results.NoContent();
     }).RequireAuthorization("AdminOnly");
 
+    // Get Vocabulary by Example id
+    app.MapGet("/examples/{id}/vocabulary", async (
+      int id,
+      ClaimsPrincipal user,
+      JPContextDbContext db,
+      IMapper mapper) =>
+    {
+
+      var exampleVocabularies = await db.ExampleVocabularies
+        .Include(ev => ev.Example)
+        .ThenInclude(e => e.Vocabulary.Where(ev => ev.VocabularyId == ev.Vocabulary.Id))
+        .ThenInclude(ev => ev.Vocabulary)
+        .Where(ev => ev.ExampleId == id)
+        .ToListAsync();
+
+      var vocabulary = exampleVocabularies.Select(ev => ev.Vocabulary).ToList();
+
+      if (vocabulary == null)
+      {
+        return Results.NotFound("Vocabulary not found.");
+      }
+
+      return Results.Ok(mapper.Map<List<VocabularyDto>>(vocabulary));
+    });
 
   }
 }

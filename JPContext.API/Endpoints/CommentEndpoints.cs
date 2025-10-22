@@ -147,5 +147,26 @@ public static class CommentEndpoints
 
       return Results.NoContent();
     }).RequireAuthorization();
+
+    // Get comments by Vocabulary id
+    app.MapGet("/vocabulary/{id}/comments", async (
+      int id,
+      ClaimsPrincipal user,
+      JPContextDbContext db,
+      IMapper mapper) =>
+    {
+
+      var comments = await db.Comments
+      .Include(c => c.UserProfile)
+      .Where(c => c.VocabularyId == id)
+      .ToListAsync();
+
+      if (comments == null)
+      {
+        return Results.NotFound("comments not found.");
+      }
+
+      return Results.Ok(mapper.Map<List<CommentDto>>(comments));
+    });
   }
 }
