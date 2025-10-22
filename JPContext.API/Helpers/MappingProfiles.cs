@@ -21,7 +21,7 @@ public class MappingProfiles : Profile
     CreateMap<VocabularyCreateDto, Vocabulary>();
     CreateMap<VocabularyUpdateDto, Vocabulary>();
 
-        // Example Mappings
+    // Example Mappings
     CreateMap<Example, ExampleDto>();
     CreateMap<ExampleCreateDto, Example>();
     CreateMap<ExampleUpdateDto, Example>();

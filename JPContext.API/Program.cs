@@ -93,6 +93,11 @@ builder.Services.AddControllers()
 // Add services for API explorer
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
+
 var app = builder.Build();
 
 // Initialize the database
