@@ -135,8 +135,26 @@ public static class ExampleEndpoints
       // Update the example
       mapper.Map(exampleDto, example);
       example.UpdatedAt = DateTime.UtcNow;
-
       await db.SaveChangesAsync();
+
+      // Update the ExampleVocabularies
+      var exampleVocabToRemove = await db.ExampleVocabularies
+        .Where(ev => ev.ExampleId == id)
+        .ToListAsync();
+
+      db.ExampleVocabularies.RemoveRange(exampleVocabToRemove);
+      await db.SaveChangesAsync();
+
+      foreach (int vocabId in exampleDto.VocabularyId)
+      {
+        var exampleVocab = new ExampleVocabulary
+        {
+          VocabularyId = vocabId,
+          ExampleId = example.Id
+        };
+        db.ExampleVocabularies.Add(exampleVocab);
+        await db.SaveChangesAsync();
+      }
 
       return Results.Ok(mapper.Map<ExampleDto>(example));
     }).RequireAuthorization();

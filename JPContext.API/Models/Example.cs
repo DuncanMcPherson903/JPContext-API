@@ -8,6 +8,7 @@ public class Example
     public required string VideoUrl { get; set; }
     public required string Subtitle { get; set; }
     public required string EnglishSubtitle { get; set; }
+    public required int UserProfileId { get; set; }
     public List<ExampleVocabulary> Vocabulary { get; set; } = new List<ExampleVocabulary>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
