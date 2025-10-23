@@ -275,7 +275,8 @@ public static class DbInitializer
           Source = "News Report",
           VideoUrl = "video1@example.com",
           Subtitle = "私たちはふじ山にいます",
-          EnglishSubtitle = "We are here at Mt. Fuji."
+          EnglishSubtitle = "We are here at Mt. Fuji.",
+          UserProfileId = 1
         },
         new Example
         {
@@ -283,7 +284,8 @@ public static class DbInitializer
           Source = "SampleSource2",
           VideoUrl = "video2@example.com",
           Subtitle = "テキストの例2",
-          EnglishSubtitle = "ExampleText2"
+          EnglishSubtitle = "ExampleText2",
+          UserProfileId = 2
         },
         new Example
         {
@@ -291,7 +293,8 @@ public static class DbInitializer
           Source = "SampleSource3",
           VideoUrl = "video3@example.com",
           Subtitle = "テキストの例3",
-          EnglishSubtitle = "ExampleText3"
+          EnglishSubtitle = "ExampleText3",
+          UserProfileId = 2
         },
         new Example
         {
@@ -299,7 +302,8 @@ public static class DbInitializer
           Source = "SampleSource4",
           VideoUrl = "video4@example.com",
           Subtitle = "テキストの例4",
-          EnglishSubtitle = "ExampleText4"
+          EnglishSubtitle = "ExampleText4",
+          UserProfileId = 1
         }
       };
 

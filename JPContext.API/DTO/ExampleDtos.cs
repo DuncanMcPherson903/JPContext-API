@@ -10,6 +10,7 @@ public class ExampleDto
   public string VideoUrl { get; set; }
   public string Subtitle { get; set; }
   public string EnglishSubtitle { get; set; }
+  public int UserProfileId { get; set; }
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }
@@ -21,6 +22,7 @@ public class ExampleCreateDto
   public required string VideoUrl { get; set; }
   public required string Subtitle { get; set; }
   public required string EnglishSubtitle { get; set; }
+  public required int UserProfileId { get; set; }
   public required List<int> VocabularyId { get; set; }
 }
 
