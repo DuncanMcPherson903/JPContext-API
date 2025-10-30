@@ -1,26 +1,45 @@
 # JPContext-API
 
+## Technologies Used
+
+- **Backend**: .NET 8.0, ASP.NET Core
+- **API Style**: Minimal API
+- **Database**: PostgreSQL
+- **ORM**: Entity Framework Core
+- **Authentication**: ASP.NET Identity with cookie authentication
+- **Object Mapping**: AutoMapper
+- **Data Format**: JSON
+
 ## Getting Started
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn package manager
+### Cloning the Repository
 
-### Installation
+Clone the project to the directory of your choice, and then:
 
-1. Clone the repository
-2. Install dependencies
-    ```bash
-    npm install
-    ```
-3. Start the development server
-    ```bash
-    npm run dev
-    ```
+```sh
+cd JPContext.API
+```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+### Setting Up the Database
 
+1. Create a connection string user secret. Remember to modify it by putting your password in there before running the commands.
+   ```sh
+   dotnet user-secrets init
+   dotnet user-secrets set 'ConnectionStrings:JPContextDbConnectionString' 'Host=localhost;Port=5432;Username=postgres;Password=your_password;Database=JPContext'
+   ```
 
-### Backend Setup
-The client application requires a backend API running at `http://localhost:5000`. See the backend repository for setup instructions:
-[https://github.com/DuncanMcPherson903/JPContext-API]
+2. Apply the database migrations:
+   ```sh
+   cd JPContext.API
+   dotnet ef database update
+   ```
+
+### Running the API
+
+There is a `launch.json` and `tasks.json` file already in the repostitory, so you can immediately start the program in debug mode.
+
+1. The API will be available at `http://localhost:5000`
+
+## API Endpoints
+
+The API provides the following main endpoint groups:
