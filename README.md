@@ -19,3 +19,8 @@
     ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+
+### Backend Setup
+The client application requires a backend API running at `http://localhost:5000`. See the backend repository for setup instructions:
+[https://github.com/DuncanMcPherson903/JPContext-API]
