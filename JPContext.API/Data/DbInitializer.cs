@@ -235,15 +235,15 @@ public static class DbInitializer
       {
         new Vocabulary
         {
-          Term = "大きい",
-          Translation = "Big/Large",
-          Pronunciation = "おおきい"
+          Term = "起きている",
+          Translation = "awake",
+          Pronunciation = "おきている"
         },
         new Vocabulary
         {
-          Term = "ふじ山",
-          Translation = "Mt. Fuji",
-          Pronunciation = "ふじさん"
+          Term = "空",
+          Translation = "Sky/Open/Empty",
+          Pronunciation = "そら/くう/あ/から/す"
         },
         new Vocabulary
         {
@@ -271,39 +271,21 @@ public static class DbInitializer
       {
         new Example
         {
-          Title = "Mt. Fuji News Report",
-          Source = "News Report",
-          VideoUrl = "video1@example.com",
-          Subtitle = "私たちはふじ山にいます",
-          EnglishSubtitle = "We are here at Mt. Fuji.",
+          Title = "Rude Awakening",
+          Source = "Azumangadaioh",
+          VideoUrl = "https://www.youtube.com/embed/oQomqPiA_-k",
+          Subtitle = "起きてもうた",
+          EnglishSubtitle = "You're already awake.",
           UserProfileId = 1
         },
         new Example
         {
-          Title = "SampleTitle2",
-          Source = "SampleSource2",
-          VideoUrl = "video2@example.com",
-          Subtitle = "テキストの例2",
-          EnglishSubtitle = "ExampleText2",
+          Title = "Teacher Interaction",
+          Source = "Azumangadaioh",
+          VideoUrl = "https://www.youtube.com/embed/VxBoaboXOrk",
+          Subtitle = "空きました",
+          EnglishSubtitle = "It opened!",
           UserProfileId = 2
-        },
-        new Example
-        {
-          Title = "SampleTitle3",
-          Source = "SampleSource3",
-          VideoUrl = "video3@example.com",
-          Subtitle = "テキストの例3",
-          EnglishSubtitle = "ExampleText3",
-          UserProfileId = 2
-        },
-        new Example
-        {
-          Title = "SampleTitle4",
-          Source = "SampleSource4",
-          VideoUrl = "video4@example.com",
-          Subtitle = "テキストの例4",
-          EnglishSubtitle = "ExampleText4",
-          UserProfileId = 1
         }
       };
 
